@@ -137,18 +137,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
 
   private filterByString(searchValue: string) {
+    const searchString = searchValue.toLocaleLowerCase().trim();
+
     return this.contacts.filter(
       element =>
-        element.uuid.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.companyName.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.regon.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.nip.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.address.street.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.address.streetNumber.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.address.postalCode.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.address.city.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.email.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-        element.phoneNumber.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+        element.uuid.toLocaleLowerCase().includes(searchString) ||
+        element.companyName.toLocaleLowerCase().includes(searchString) ||
+        element.regon.toString().toLocaleLowerCase().includes(searchString) ||
+        element.nip.toString().toLocaleLowerCase().includes(searchString) ||
+        element.address.street.toString().toLocaleLowerCase().includes(searchString) ||
+        element.address.streetNumber.toString().toLocaleLowerCase().includes(searchString) ||
+        element.address.postalCode.toString().toLocaleLowerCase().includes(searchString) ||
+        element.address.city.toString().toLocaleLowerCase().includes(searchString) ||
+        element.email.toString().toLocaleLowerCase().includes(searchString) ||
+        element.phoneNumber.toString().toLocaleLowerCase().includes(searchString)
     );
   }
 }
