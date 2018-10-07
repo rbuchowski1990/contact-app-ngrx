@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  overflow: auto;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.d-flex {
+  display: flex;
+  &.--justify-end {
+    justify-content: flex-end;
+  }
+  &.--justify-center {
+    justify-content: center;
+  }
+}
+
+.input-full-width {
+  width: 100%;
+}

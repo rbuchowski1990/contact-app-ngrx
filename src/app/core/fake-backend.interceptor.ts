@@ -4,7 +4,7 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {delay, dematerialize, materialize, mergeMap} from 'rxjs/internal/operators';
+import {dematerialize, materialize, mergeMap} from 'rxjs/internal/operators';
 import {Contact} from '../models/contact';
 import {ApiUrl} from '@config/server';
 
@@ -13,28 +13,60 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
   public contacts: Contact[] = [
     {
-      uuid: '1',
-      companyName: 'test',
-      regon: 123123123,
-      nip: 7393844424
+      uuid: '1538924987755',
+      companyName: 'Jacksonville Bancorp Inc.',
+      regon: 361339191,
+      nip: 7393831231,
+      address: {
+        street: 'Woloska',
+        streetNumber: '12/33',
+        postalCode: '02-313',
+        city: 'Warszawa'
+      },
+      email: 'test@wp.pl',
+      phoneNumber: 600123312
     },
     {
-      uuid: '2',
-      companyName: 'test2',
-      regon: 123123123,
-      nip: 7393844424
+      uuid: '1538924995642',
+      companyName: 'The Bancorp, Inc',
+      regon: 313391091,
+      nip: 7393831231,
+      address: {
+        street: 'Testowa',
+        streetNumber: '122/33',
+        postalCode: '02-313',
+        city: 'Warszawa'
+      },
+      email: 'test@wp.pl',
+      phoneNumber: 600123312
     },
     {
-      uuid: '3',
-      companyName: 'test3',
-      regon: 123123123,
-      nip: 7393844424
+      uuid: '1538925004802',
+      companyName: 'Groupon, Inc.',
+      regon: 361331091,
+      nip: 7393831231,
+      address: {
+        street: 'Szczesliwicka',
+        streetNumber: '12/33',
+        postalCode: '02-313',
+        city: 'Warszawa'
+      },
+      email: 'test@wp.pl',
+      phoneNumber: 600123312
     },
     {
-      uuid: '4',
-      companyName: 'test4',
-      regon: 123123123,
-      nip: 7393844424
+      uuid: '1538925012389',
+      companyName: 'General Motors Company',
+      regon: 361339101,
+      nip: 7393831231,
+      address: {
+        street: 'kolejowa',
+        streetNumber: '12/33',
+        postalCode: '02-313',
+        city: 'Warszawa'
+      },
+      email: 'test@wp.pl',
+      phoneNumber: 600123312
     }
   ];
 
@@ -48,9 +80,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         mergeMap(() => {
           const urlSegments: string[] = request.url.split('/');
 
-          if (request.method === 'GET') {
+          if (request.url.endsWith(`${ApiUrl}/contacts`) && request.method === 'GET') {
 
             return of(new HttpResponse({status: 200, body: this.contacts}));
+          } else if (request.url.includes(`${ApiUrl}/contacts?filter=`) && request.method === 'GET') {
+
+
+            return of(new HttpResponse({
+              status: 200,
+              body: this.filterByString(request.params.get('filter'))
+            }));
+          } else if (request.method === 'GET') {
+
+
+            return of(new HttpResponse({
+              status: 200,
+              body: this.contacts.filter(el => el.uuid === urlSegments[urlSegments.length - 1])[0]
+            }));
           } else if (request.method === 'DELETE') {
 
             const elementToRemove = this.contacts.filter(el => el.uuid === urlSegments[urlSegments.length - 1])[0];
@@ -59,9 +105,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return of(new HttpResponse({status: 200, body: elementToRemove}));
           } else if (request.method === 'POST') {
 
-            const elementToAdd = Object.assign({uuid: +new Date()}, request.body);
+            const elementToAdd = Object.assign({uuid: (+new Date()).toString()}, request.body);
 
-            this.contacts.push(elementToAdd);
+
+            this.contacts = [...this.contacts, elementToAdd];
 
             return of(new HttpResponse({status: 200, body: elementToAdd}));
           } else if (request.method === 'PUT') {
@@ -84,11 +131,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         }),
         materialize(),
-        delay(500),
         dematerialize()
       );
   }
 
+
+  private filterByString(searchValue: string) {
+    return this.contacts.filter(
+      element =>
+        element.uuid.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.companyName.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.regon.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.nip.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.address.street.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.address.streetNumber.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.address.postalCode.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.address.city.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.email.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        element.phoneNumber.toString().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    );
+  }
 }
 
 export let fakeBackendProvider = {

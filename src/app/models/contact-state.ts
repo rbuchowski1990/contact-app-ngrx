@@ -1,5 +1,5 @@
 import {Contact} from './contact';
 
-export interface AppState {
+export interface ContactState {
   contacts: Contact[];
 }

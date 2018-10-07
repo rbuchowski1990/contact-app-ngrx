@@ -1,0 +1,138 @@
+<script src="contact-form.component.ts"></script>
+<div class="contact-form-container">
+  <mat-card>
+    <mat-card-content>
+      <form (ngSubmit)="submit(f)" #f="ngForm">
+        <div class="form-group-container">
+          <mat-form-field class="input-full-width">
+            <input matInput
+                   name="companyName"
+                   type="text"
+                   placeholder="Company name"
+                   [(ngModel)]="contact.companyName"
+                   required
+            >
+            <mat-error>
+              field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="input-full-width">
+            <input matInput
+                   name="nip"
+                   type="number"
+                   placeholder="Nip"
+                   pattern="^\d{10}$"
+                   [(ngModel)]="contact.nip"
+                   required
+            >
+            <mat-error>
+              Nip is not valid. 10 digits is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="input-full-width">
+            <input matInput
+                   name="regon"
+                   type="number"
+                   placeholder="Regon"
+                   pattern="^\d{9}$"
+                   [(ngModel)]="contact.regon"
+                   required
+            >
+            <mat-error>
+              Regon is not valid. 9 digits is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-grid-list cols="8" rowHeight="60px">
+            <mat-grid-tile colspan="5" rowspan="1">
+              <mat-form-field class="input-full-width">
+                <input matInput
+                       name="street"
+                       type="text"
+                       placeholder="Street"
+                       [(ngModel)]="contact.address.street"
+                >
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1"></mat-grid-tile>
+            <mat-grid-tile colspan="2">
+              <mat-form-field class="input-full-width">
+                <input matInput
+                       name="streetNumber"
+                       type="text"
+                       placeholder="Street number"
+                       [(ngModel)]="contact.address.streetNumber"
+                >
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+          <mat-grid-list cols="8" rowHeight="60px">
+            <mat-grid-tile colspan="2" rowspan="1">
+              <mat-form-field class="input-full-width">
+                <input matInput
+                       appPostalCodeMask
+                       pattern="\d{2}-\d{3,}"
+                       name="postalCode"
+                       type="text"
+                       placeholder="Postal code"
+                       [(ngModel)]="contact.address.postalCode"
+                >
+                <mat-error>
+                  Postal code is not valid
+                </mat-error>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1"></mat-grid-tile>
+            <mat-grid-tile colspan="5" rowspan="1">
+              <mat-form-field class="input-full-width">
+                <input matInput
+                       name="city"
+                       type="text"
+                       placeholder="City"
+                       [(ngModel)]="contact.address.city"
+                >
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+
+          <mat-form-field class="input-full-width">
+            <input matInput
+                   name="email"
+                   type="text"
+                   pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+                   placeholder="Email"
+                   [(ngModel)]="contact.email"
+            >
+            <mat-error>
+              Email is not valid
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="input-full-width">
+            <input matInput
+                   name="phoneNumber"
+                   pattern="^\d{9}$"
+                   type="number"
+                   placeholder="Phone number"
+                   [(ngModel)]="contact.phoneNumber"
+            >
+            <mat-error>
+              Phone number is not valid. 9 digits is required
+            </mat-error>
+          </mat-form-field>
+
+
+        </div>
+
+        <div class="d-flex --justify-end">
+          <button mat-button color="primary" type="submit">Save</button>
+        </div>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>

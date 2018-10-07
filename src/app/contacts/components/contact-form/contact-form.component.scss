@@ -1,0 +1,11 @@
+.contact-form-container {
+  display: flex;
+  justify-content: center;
+  mat-card {
+    min-width: 20%;
+  }
+}
+.form-group-container {
+  //display: flex;
+  //flex-direction: column;
+}

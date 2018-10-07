@@ -1,0 +1,12 @@
+<div class="d-flex --justify-center">
+  <h1>
+    <a routerLink="/contacts">Contacts</a>
+    <i class="material-icons">
+      keyboard_arrow_right
+    </i>
+  </h1>
+  <h1>
+    add
+  </h1>
+</div>
+<app-contact-form [contact]="contact" (formSubmit)="onFormSubmitted($event)"></app-contact-form>

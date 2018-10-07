@@ -1,0 +1,15 @@
+<div class="d-flex --justify-center"><h1>Contacts</h1></div>
+
+<div class="search-container">
+  <mat-form-field class="search-field">
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchValue" (input)="onInputChange($event)">
+  </mat-form-field>
+</div>
+
+<app-contacts-table [contactData]="contacts$ | async" (removeItem)="deleteContact($event)"></app-contacts-table>
+
+<div class="add-btn-container">
+  <button mat-raised-button color="primary" routerLink="/contacts/add">
+    Add new
+  </button>
+</div>

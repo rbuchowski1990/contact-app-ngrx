@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {DataRequestsService} from '../core/data-requests.service';
-import {Contact, ContactFormData} from '@models/contact';
+import {Contact, ContactForm} from '@models/contact';
 import {Observable} from 'rxjs/index';
 
 @Injectable()
@@ -13,11 +13,19 @@ export class ContactService {
     return this.dataRequestsService.getContactsRequest();
   }
 
+  public getContact(contactUuid: string): Observable<Contact> {
+    return this.dataRequestsService.getContactRequest(contactUuid);
+  }
+
+  public filterByString(value: string): Observable<Contact[]> {
+    return this.dataRequestsService.getFiltredContactsRequest(value);
+  }
+
   public removeContact(contactUuid: string): Observable<Contact> {
     return this.dataRequestsService.removeContactRequest(contactUuid);
   }
 
-  public addContact(contact: ContactFormData): Observable<Contact> {
+  public addContact(contact: ContactForm): Observable<Contact> {
     return this.dataRequestsService.addContactRequest(contact);
   }
 

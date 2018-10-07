@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Contact, ContactFormData} from '@models/contact';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Contact, ContactForm} from '@models/contact';
 import {ApiUrl} from '@config/server';
 import {Observable} from 'rxjs/index';
 
@@ -14,11 +14,21 @@ export class DataRequestsService {
     return this.http.get<Contact[]>(`${ApiUrl}/contacts`);
   }
 
+  public getContactRequest(uuid: string): Observable<Contact> {
+    return this.http.get<Contact>(`${ApiUrl}/contact/${uuid}`);
+  }
+
+  public getFiltredContactsRequest(value: string): Observable<Contact[]> {
+    const param = new HttpParams().set('filter', value);
+
+    return this.http.get<Contact[]>(`${ApiUrl}/contacts?filter=${value}`, {params: param});
+  }
+
   public removeContactRequest(contactUuid: string): Observable<Contact> {
     return this.http.delete<Contact>(`${ApiUrl}/contacts/${contactUuid}`);
   }
 
-  public addContactRequest(contactFormData: ContactFormData): Observable<Contact> {
+  public addContactRequest(contactFormData: ContactForm): Observable<Contact> {
     return this.http.post<Contact>(`${ApiUrl}/contacts`, contactFormData);
   }
 
